@@ -24,5 +24,30 @@ class User {
         }
         return false;
     }
+    public function getAllUsers() {
+        $query = "SELECT * FROM $this->table INNER JOIN karyawan USING (id_karyawan)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result;
+    }
+    public function getKaryawan(){
+    $query = "SELECT *FROM $this->table RIGHT JOIN karyawan USING(id_karyawan) WHERE user.id_karyawan IS NULL ORDER BY nama_karyawan ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result;
+    }
+    public function addUser($username,$password,$role,$id_karyawan){
+        $query="INSERT INTO $this->table (username, password, role, id_karyawan) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssss", $username, $password, $role, $id_karyawan);
+        return $stmt->execute();
+    }
+    public function logout() {
+        session_unset();
+        session_destroy();
+    }
 }
+
 ?>
