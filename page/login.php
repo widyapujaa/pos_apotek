@@ -11,7 +11,7 @@ if (isset($_POST['login'])) {
     if ($user) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
-        echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Login', 'home.php')};</script>";
+        echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Login', 'dashboard.php?page=home')};</script>";
     }
     else {
         echo"<script>window.onload = function() {showAlert('error','Gagal', 'Gagal Login', 'login.php')};</script>";
