@@ -1,0 +1,37 @@
+<?php
+require_once '../config/Database.php';
+class Pelanggan {
+    private $table = "pelanggan";
+    private $conn;
+    public function __construct() {
+        $this->db = new Database();
+        $this->conn = $this->db->getConnection();
+    }
+
+    public function getAllPelanggan() {
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result() ->fetch_assoc();
+        return $result;
+    }
+    public function createPelanggan($id_pelanggan, $nama_pelanggan, $email, $no_telepon) {
+        $query = "INSERT INTO $this->table (id_pelanggan, nama_pelanggan, email, no_telepon) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssss", $id_pelanggan, $nama_pelanggan, $email, $no_telepon);
+        return $stmt->execute();
+    }
+    public function updatePelanggan($id_pelanggan, $nama_pelanggan, $email, $no_telepon) {
+        $query = "UPDATE $this->table SET nama_pelanggan = ?, email = ?, no_telepon = ? WHERE id_pelanggan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssss", $nama_pelanggan, $email, $no_telepon, $id_pelanggan);
+        return $stmt->execute();
+    }
+    public function deletePelanggan($id_pelanggan) {
+        $query = "DELETE FROM $this->table WHERE id_pelanggan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_pelanggan);
+        return $stmt->execute();
+    }
+    
+}
