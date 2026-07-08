@@ -33,7 +33,7 @@ $no = 1;
 
                 <tbody>
 
-                    <?php while($row = mysqli_fetch_assoc($data)){ ?>
+                    <?php foreach($data as $row){ ?>
 
                     <tr>
                         <td><?= $no++; ?></td>
@@ -41,7 +41,7 @@ $no = 1;
                         <td><?= $row['username']; ?></td>
                         <td><?= $row['role']; ?></td>
                         <td class="text-center">
-                            <a href="" class="btn btn-warning btn-sm">
+                            <a href="?page=edit_user&username=<?= $row['username'] ?>" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 

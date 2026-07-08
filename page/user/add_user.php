@@ -1,15 +1,22 @@
 <?php
 require_once '../class/user.php';
+require_once '../class/karyawan.php';
+require_once '../config/Mailer.php';
 $user = new User();
 $dataKaryawan = $user->getKaryawan();
+
 if (isset($_POST['add_user'])) {
     $id_karyawan = $_POST['id_karyawan'];
     $username = $_POST['username'];
     $role = $_POST['role'];
-    $password_default=$role.$id_karyawan;
+    $password_default = substr(str_shuffle("ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"), 0, 8);
     $password = password_hash($password_default, PASSWORD_DEFAULT);
-    $user->addUser($username,$password,$role,$id_karyawan);
-    if ($user) {
+    $eksekusi = $user->addUser($username,$password,$role,$id_karyawan);
+    if ($eksekusi) {
+        $mailer = new Mailer();
+        $karyawan = new Karyawan();
+        $karyawan = $karyawan->getKaryawanById($id_karyawan);
+        $mailer->SendAccountInfo($karyawan['email'], $karyawan['nama_karyawan'], $username, $password_default);
         echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Menambahkan User', 'dashboard.php?page=user')};</script>";
     }
     else {

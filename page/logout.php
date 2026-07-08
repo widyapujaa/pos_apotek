@@ -9,7 +9,7 @@ require_once '../class/user.php';
     }
     else {
         echo"<script>window.onload = function() {showAlert('error','Gagal', 'Gagal Logout', 'page/dashboard.php?page=home')};</script>";
-    }    
+    }
 
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,9 @@ require_once '../class/user.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Logout</title>
+
 </head>
 
 <body>

@@ -28,7 +28,7 @@ class User {
         $query = "SELECT * FROM $this->table INNER JOIN karyawan USING (id_karyawan)";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->get_result() ->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
     public function getKaryawan(){
@@ -38,10 +38,30 @@ class User {
         $result = $stmt->get_result();
         return $result;
     }
+    public function getUserByUsername($username) {
+        $query = "SELECT * FROM $this->table INNER JOIN karyawan USING (id_karyawan) WHERE username = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
     public function addUser($username,$password,$role,$id_karyawan){
         $query="INSERT INTO $this->table (username, password, role, id_karyawan) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ssss", $username, $password, $role, $id_karyawan);
+        return $stmt->execute();
+    }
+    public function updateUser($username,$role) {
+        $query = "UPDATE $this->table SET role = ? WHERE username = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ss",$role, $username);
+        return $stmt->execute();
+    }
+    public function resetPassword($username, $Password) {
+        $query = "UPDATE $this->table SET password = ? WHERE username = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ss", $Password, $username);
         return $stmt->execute();
     }
     public function logout() {
@@ -49,5 +69,4 @@ class User {
         session_destroy();
     }
 }
-
 ?>
