@@ -1,7 +1,9 @@
 <?php
-require_once '../class/karyawan.php';
-$karyawan = new Karyawan();
-$data = $karyawan->getAllKaryawan();
+require_once '../class/supplier.php';
+
+// Constructor
+$supplier = new Supplier();
+$data = $supplier->getAllSupplier();
 $no = 1;
 if(isset($_GET['delete_karyawan'])) {
     $id_karyawan = $_GET['id_karyawan'];

@@ -1,9 +1,10 @@
 <?php
-require_once '../class/karyawan.php';
-$karyawan = new Karyawan();
-if (isset($_POST['add_karyawan'])) {
-    $nama_karyawan = $_POST['nama_karyawan'];
-    $email = $_POST['email'];
+require_once '../class/supplier.php';
+$supplier = new Supplier();
+
+// Logic
+if (isset($_POST['add_supplier'])) {
+    $nama_perusahaan = $_POST['nama_perusahaan'];
     $no_telepon = $_POST['no_telepon'];
     $alamat = $_POST['alamat'];
     $eksekusi = $karyawan->createKaryawan($nama_karyawan, $email, $no_telepon, $alamat);
