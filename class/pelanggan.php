@@ -12,10 +12,19 @@ class Pelanggan {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $result = $stmt->get_result() ->fetch_assoc();
+        $result = $stmt->get_result() ->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
-    public function createPelanggan($id_pelanggan, $nama_pelanggan, $email, $no_telepon) {
+    public function getPelangganById($id_pelanggan) {
+        $query = "SELECT * FROM $this->table WHERE id_pelanggan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_pelanggan);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result;
+    }
+    public function createPelanggan($nama_pelanggan, $email, $no_telepon) {
+        $id_pelanggan = $this->db->generateId($this->table, 'id_pelanggan', 'PL');
         $query = "INSERT INTO $this->table (id_pelanggan, nama_pelanggan, email, no_telepon) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ssss", $id_pelanggan, $nama_pelanggan, $email, $no_telepon);
@@ -33,5 +42,19 @@ class Pelanggan {
         $stmt->bind_param("s", $id_pelanggan);
         return $stmt->execute();
     }
-    
+    public function cekRelasiObat($id_supplier){
+    $query = "SELECT id_supplier FROM obat WHERE id_supplier = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $id_supplier);
+    $stmt->execute();
+    return $stmt->get_result()->num_rows;
+}
+    public function cekRelasiTransaksi($id_pelanggan) {
+        $query = "SELECT id_pelanggan FROM transaksi WHERE id_pelanggan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_pelanggan);
+        $stmt->execute();
+        return $stmt->get_result()->num_rows;
+    }
+
 }

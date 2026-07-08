@@ -12,13 +12,14 @@ class Karyawan {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        $result = $stmt->get_result() ->fetch_assoc();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
-    public function createKaryawan($id_karyawan, $nama_karyawan, $email, $no_telepon, $alamat) {
+    public function createKaryawan($nama_karyawan, $email, $no_telepon, $alamat) {
+        $id_karyawan = $this->db->generateId($this->table, 'id_karyawan', 'KR');
         $query = "INSERT INTO $this->table (id_karyawan, nama_karyawan, email, no_telepon, alamat) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssss", $id_karyawan, $nama_karyawan, $email, $no_telepon, $alamat);
+        $stmt->bind_param("sssss", $id_karyawan, $nama_karyawan, $email, $no_telepon, $alamat);
         return $stmt->execute();
     }
     public function updateKaryawan($id_karyawan, $nama_karyawan, $email, $no_telepon, $alamat) {
@@ -33,7 +34,20 @@ class Karyawan {
         $stmt->bind_param("s", $id_karyawan);
         return $stmt->execute();
     }
+    public function getKaryawanById($id_karyawan) {
+        $query = "SELECT * FROM $this->table WHERE id_karyawan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_karyawan);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+    public function cekRelasiTransaksi($id_karyawan) {
+        $query = "SELECT id_karyawan FROM transaksi WHERE id_karyawan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_karyawan);
+        $stmt->execute();
+        return $stmt->get_result()->num_rows;
+    }
     
-
-
 }
