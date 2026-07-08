@@ -1,3 +1,60 @@
 <?php
-echo"hello word";
+require_once '../class/supplier.php';
+$supplier = new Supplier();
+if (isset($_POST['add_supplier'])) {
+    $nama_perusahaan = $_POST['nama_perusahaan'];
+    $no_telepon = $_POST['no_telepon'];
+    $alamat = $_POST['alamat'];
+    $eksekusi = $supplier->createSupplier($nama_perusahaan, $no_telepon, $alamat);
+    if ($eksekusi) {
+        echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Menambahkan Supplier', 'dashboard.php?page=supplier')};</script>";
+    } else {
+        echo"<script>window.onload = function() {showAlert('error','Gagal', 'Gagal Menambahkan Supplier', 'dashboard.php?page=supplier')};</script>";
+    }
+    
+}
 ?>
+
+<div class="container-fluid p-4">
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white">
+            <h4 class="mb-0">Tambah Supplier</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="dashboard.php?page=add_supplier" method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">Nama Perusahaan</label>
+                    <input type="text" name="nama_perusahaan" class="form-control"
+                        placeholder="Masukkan Nama Perusahaan" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">No Telepon</label>
+                    <input type="text" name="no_telepon" class="form-control" placeholder="Masukkan No Telepon"
+                        required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Alamat</label>
+                    <textarea name="alamat" class="form-control" placeholder="Masukkan Alamat" required></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="?page=supplier" class="btn btn-secondary">
+                        Kembali
+                    </a>
+
+                    <button type="submit" name="add_supplier" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Simpan
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
