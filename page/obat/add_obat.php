@@ -1,6 +1,8 @@
 <?php
     require_once '../class/obat.php';
     require_once '../class/supplier.php';
+
+    // Constructor
     $obat = new Obat();
     $supplier = new Supplier();
     $dataSupplier = $supplier->getAllSupplier();

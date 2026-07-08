@@ -1,5 +1,7 @@
 <?php
     require_once '../class/obat.php';
+
+    // Constructor
     $obat = new Obat();
     $data = $obat->getAllObat();
     $no = 1;

@@ -1,6 +1,8 @@
 <?php
 require_once '../class/supplier.php';
 $supplier = new Supplier();
+
+// Method
 $id_supplier = $_GET['id_supplier'];
 $data_supplier= $supplier->getSupplierById($id_supplier);
 if (isset($_POST['edit_supplier'])) {

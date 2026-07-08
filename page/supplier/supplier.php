@@ -1,5 +1,7 @@
 <?php
 require_once '../class/supplier.php';
+
+// Constructor
 $supplier = new Supplier();
 $data = $supplier->getAllSupplier();
 $no = 1;

@@ -53,6 +53,7 @@ if (isset($_POST['edit_obat'])) {
                 <div class="mb-3">
                     <label class="form-label">Kategori Obat</label>
                     <select name="kategori_obat" class="form-select" required>
+                        <!-- edit simbol -->
                         <option value="">-- Pilih Kategori -</option>
                         <option value="Obat Bebas"
                             <?php if($data_obat['kategori_obat'] == 'Obat Bebas') { echo 'selected'; }?>>Obat Bebas

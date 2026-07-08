@@ -1,6 +1,8 @@
 <?php
 require_once '../class/supplier.php';
 $supplier = new Supplier();
+
+// Logic
 if (isset($_POST['add_supplier'])) {
     $nama_perusahaan = $_POST['nama_perusahaan'];
     $no_telepon = $_POST['no_telepon'];
