@@ -63,6 +63,9 @@ class Page{
             case "add_transaksi":
                 include "../page/transaksi/add_transaksi.php";
                 break;
+            case "detail_transaksi":
+                include "../page/transaksi/detail_transaksi.php";
+                break;
             default:
                 include "../page/home.php";
                 break;
