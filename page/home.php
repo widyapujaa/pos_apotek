@@ -319,7 +319,7 @@ $aktivitas = $dashboard->aktivitasTerbaru();
 
                                         <small class="text-muted">
 
-                                            <?= date("d/m/Y", strtotime($row['tanggal_transaksi'])) ?>
+                                            <?= date("d/m/Y", strtotime($row['tgl_transaksi'])) ?>
 
                                         </small>
 
