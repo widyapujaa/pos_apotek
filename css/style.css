@@ -69,3 +69,18 @@ body{
   min-height: calc(100vh - 56px);
   transition: all 0.3s;
 }
+
+/* Dashboard Styling */
+.dashboard-card{
+
+    transition:.25s;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 .7rem 1.5rem rgba(0,0,0,.12);
+
+}
