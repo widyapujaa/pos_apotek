@@ -88,8 +88,10 @@ $no = 1;
                 <a href="?page=transaksi" class="btn btn-secondary">
                     Kembali
                 </a>
-                <a href="?page=cetak_struk&id_transaksi=<?= $data['id_transaksi']; ?>" class="btn btn-success">
-                    <i class="bi bi-printer"></i> Cetak Struk
+
+                <a href="../export/cetak_struk.php?id_transaksi=<?= $id_transaksi ?>" target="_blank"
+                    class="btn btn-primary">
+                    <i class="bi bi-printer"></i> Cetak
                 </a>
             </div>
 
