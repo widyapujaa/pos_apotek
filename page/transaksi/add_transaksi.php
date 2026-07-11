@@ -63,7 +63,8 @@ if (isset($_POST['add_transaksi'])) {
             );
 
             if ($eksekusi) {
-                echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Transaksi berhasil disimpan', 'dashboard.php?page=transaksi')};</script>";
+                $id_transaksi = $transaksiModel->getIdTransaksi();
+                echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Transaksi berhasil disimpan', 'dashboard.php?page=detail_transaksi&id_transaksi=" . $id_transaksi . "')};</script>";
             } else {
                 $pesan = addslashes($transaksiModel->getError());
                 echo "<script>window.onload = function() {showAlert('error','Gagal', '$pesan', 'dashboard.php?page=add_transaksi')};</script>";
@@ -210,7 +211,7 @@ if (isset($_POST['add_transaksi'])) {
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="?page=transaksi" class="btn btn-secondary">
-                        <i class="bi bi-arrow-left"></i> Kembali
+                        Kembali
                     </a>
                     <button type="submit" name="add_transaksi" class="btn btn-success">
                         <i class="bi bi-check-circle"></i> Simpan Transaksi

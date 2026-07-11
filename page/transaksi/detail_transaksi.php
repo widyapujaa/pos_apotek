@@ -13,10 +13,6 @@ $no = 1;
             <h3 class="fw-bold mb-0">Detail Transaksi</h3>
             <small class="text-muted">Rincian data transaksi</small>
         </div>
-
-        <a href="?page=transaksi" class="btn btn-secondary">
-            <i class="bi bi-arrow-left"></i> Kembali
-        </a>
     </div>
 
     <div class="card shadow-sm border-0 rounded-4 mb-4">
@@ -88,8 +84,17 @@ $no = 1;
                 </tbody>
 
             </table>
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="?page=transaksi" class="btn btn-secondary">
+                    Kembali
+                </a>
+                <a href="?page=cetak_struk&id_transaksi=<?= $data['id_transaksi']; ?>" class="btn btn-success">
+                    <i class="bi bi-printer"></i> Cetak Struk
+                </a>
+            </div>
 
         </div>
+
     </div>
 
 </div>
