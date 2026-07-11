@@ -9,7 +9,7 @@ class User {
     }
 
     public function login($username, $password) {
-       $query = "SELECT * FROM $this->table WHERE username = ?";
+       $query = "SELECT * FROM $this->table INNER JOIN karyawan USING (id_karyawan) WHERE username = ?";
        $stmt = $this->conn->prepare($query);
         $stmt->bind_param("s", $username);
         $stmt->execute();

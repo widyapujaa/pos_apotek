@@ -11,6 +11,7 @@ if (isset($_POST['login'])) {
     if ($user) {
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
+        $_SESSION['id_karyawan'] = $user['id_karyawan'];
         echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Login', 'dashboard.php?page=home')};</script>";
     }
     else {
