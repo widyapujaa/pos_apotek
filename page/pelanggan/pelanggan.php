@@ -2,6 +2,26 @@
 require_once '../class/pelanggan.php';
 $pelanggan = new Pelanggan();
 $data = $pelanggan->getAllPelanggan();
+
+// Keyword pencarian
+$keyword = "";
+
+// Proses Pencarian Pelanggan
+if (isset($_GET['keyword'])) {
+
+    $keyword = trim($_GET['keyword']);
+
+    // Jika textbox tidak kosong lakukan pencarian
+    if ($keyword != "") {
+
+        $data = $pelanggan->searchPelanggan($keyword);
+    } else {
+
+        // Jika textbox kosong tampilkan seluruh data
+        $data = $pelanggan->getAllPelanggan();
+    }
+}
+
 $no = 1;
 if(isset($_GET['delete_pelanggan'])) {
     $id_pelanggan = $_GET['id_pelanggan'];
@@ -17,14 +37,71 @@ if(isset($_GET['delete_pelanggan'])) {
 <div class="container-fluid p-4">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
+
         <div>
             <h3 class="fw-bold mb-0">Pelanggan</h3>
             <small class="text-muted">Kelola data pelanggan</small>
         </div>
 
-        <a href="?page=add_pelanggan" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Tambah Pelanggan
-        </a>
+        <div class="d-flex align-items-center">
+
+            <!-- Tombol Tambah Pelanggan -->
+            <a href="?page=add_pelanggan"
+                class="btn btn-success me-3">
+
+                <i class="bi bi-plus-circle"></i>
+                Tambah Pelanggan
+
+            </a>
+
+            <!-- Tombol Export PDF -->
+            <a href="../export/export_pelanggan.php"
+                target="_blank"
+                class="btn btn-danger me-3">
+
+                <i class="bi bi-file-earmark-pdf"></i>
+                Export PDF
+
+            </a>
+
+            <!-- Search Pelanggan -->
+            <form method="GET" class="position-relative">
+
+                <input
+                    type="hidden"
+                    name="page"
+                    value="pelanggan">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    name="keyword"
+                    class="form-control ps-5 pe-5"
+                    placeholder="Cari pelanggan..."
+                    value="<?= htmlspecialchars($keyword); ?>"
+                    style="width:240px;border-radius:20px;">
+
+                <!-- Icon Search -->
+                <i class="bi bi-search position-absolute"
+                    style="left:18px; top:50%;transform:translateY(-50%);color:#6c757d;">
+                </i>
+
+                <?php if ($keyword != "") { ?>
+
+                    <!-- Tombol Reset -->
+                    <a href="?page=pelanggan"
+                        class="position-absolute text-decoration-none"
+                        style="right:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px;line-height:1;"
+                        title="Reset Pencarian">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </a>
+
+                <?php } ?>
+
+            </form>
+
+        </div>
+
     </div>
 
     <div class="card shadow-sm border-0 rounded-4">
@@ -76,8 +153,26 @@ if(isset($_GET['delete_pelanggan'])) {
                 </tbody>
 
             </table>
-
         </div>
     </div>
-
 </div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+
+    // Auto search setelah user berhenti mengetik 500ms
+    searchInput.addEventListener("keyup", function() {
+
+        clearTimeout(this.delay);
+        this.delay = setTimeout(() => {
+
+            this.form.submit();
+
+        }, 500);
+    });
+
+    // Jika tombol X bawaan browser ditekan
+    searchInput.addEventListener("search", function() {
+        this.form.submit();
+    });
+</script>

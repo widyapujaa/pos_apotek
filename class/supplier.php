@@ -24,7 +24,7 @@ class Supplier
     }
 
     // Mencari Data Supplier Berdasarkan Nama Perusahaan
-    public function searchSupplier($keyword)
+    public function searchKaryawan($keyword)
     {
 
         // Sanitasi Input
@@ -32,7 +32,7 @@ class Supplier
 
         $query = "SELECT *
               FROM $this->table
-              WHERE nama_perusahaan LIKE ?";
+              WHERE nama_karyawan LIKE ?";
 
         $stmt = $this->conn->prepare($query);
 

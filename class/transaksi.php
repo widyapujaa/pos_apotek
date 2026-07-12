@@ -29,6 +29,37 @@ class Transaksi {
         return $result;
     }
 
+    // Mencari Data Transaksi
+public function searchTransaksi($keyword){
+
+    $query = "
+    SELECT
+        transaksi.*,
+        pelanggan.nama_pelanggan,
+        karyawan.nama_karyawan
+    FROM transaksi
+    INNER JOIN pelanggan
+        ON transaksi.id_pelanggan = pelanggan.id_pelanggan
+    INNER JOIN karyawan
+        ON transaksi.id_karyawan = karyawan.id_karyawan
+    WHERE
+        pelanggan.nama_pelanggan LIKE ?
+        OR transaksi.kategori_pelanggan LIKE ?
+    ORDER BY transaksi.id_transaksi DESC
+";
+
+    $stmt = $this->conn->prepare($query);
+    $search = "%".$keyword."%";
+    $stmt->bind_param(
+        "ss",
+        $search,
+        $search
+    );
+
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
     public function getTransaksiById($id_transaksi) {
         $query = "SELECT * FROM $this->table LEFT JOIN pelanggan USING (id_pelanggan) LEFT JOIN karyawan USING (id_karyawan) WHERE id_transaksi = ?";
         $stmt = $this->conn->prepare($query);

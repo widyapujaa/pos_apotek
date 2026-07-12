@@ -1,16 +1,16 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once '../class/obat.php';
+require_once '../class/transaksi.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// Membuat object obat
-$obat = new Obat();
+// Membuat object user
+$transaksi = new Transaksi();
 
-// Mengambil seluruh data obat
-$data = $obat->getAllObat();
+// Mengambil seluruh data user
+$data = $transaksi->getAllTransaksi();
 
 // Konfigurasi Dompdf
 $options = new Options();
@@ -58,7 +58,7 @@ $html = '
 
     </style>
 
-        <h2>LAPORAN DATA OBAT</h2>
+        <h2>LAPORAN DATA TRANSAKSI</h2>
 
         <p>
         POS APOTEK
@@ -71,12 +71,15 @@ $html = '
         <tr>
 
             <th>No</th>
-            <th>ID Obat</th>
-            <th>Nama Obat</th>
-            <th>Kategori</th>
-            <th>Stok</th>
-            <th>Harga</th>
-            <th>Supplier</th>
+            <th>ID Transaksi</th>
+            <th>ID Pelanggan</th>
+            <th>Tanggal Transaksi</th>
+            <th>Kategori Pelanggan</th>
+            <th>Foto Resep</th>
+            <th>Total</th>
+            <th>Bayar</th>
+            <th>Kembalian</th>
+            <th>Nama Karyawan</th>
 
         </tr>
 
@@ -90,12 +93,17 @@ $html = '
 
         <tr>
             <td>' . $no++ . '</td>
-            <td>' . $row['id_obat'] . '</td>
-            <td>' . $row['nama_obat'] . '</td>
-            <td>' . $row['kategori_obat'] . '</td>
-            <td>' . $row['stok_obat'] . '</td>
-            <td>' . $row['harga_obat'] . '</td>
-            <td>' . $row['nama_perusahaan'] . '</td>
+            <td>' . $row['id_transaksi'] . '</td>
+            <td>' . $row['id_pelanggan'] . '</td>
+            <td>' . $row['tgl_transaksi'] . '</td>
+            <td>' . $row['kategori_pelanggan'] . '</td>
+            <td>' . $row['foto_resep'] . '</td>
+            <td>' . $row['total'] . '</td>
+            <td>' . $row['bayar'] . '</td>
+            <td>' . $row['kembalian'] . '</td>
+            <td>' . $row['nama_karyawan'] . '</td>
+
+
         </tr>
 
         ';
@@ -117,6 +125,6 @@ $html = '
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream(
-            "Laporan Obat.pdf",
+            "Laporan Transaksi.pdf",
             ["Attachment" => false]
         );

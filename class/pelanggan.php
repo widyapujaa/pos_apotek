@@ -15,6 +15,30 @@ class Pelanggan {
         $result = $stmt->get_result() ->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
+
+    // Mencari Data Pelanggan
+    public function searchPelanggan($keyword)
+    {
+
+        // Sanitasi Input
+        $keyword = trim($keyword);
+
+        $query = "SELECT *
+              FROM $this->table
+              WHERE nama_pelanggan LIKE ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Menggunakan wildcard agar pencarian bersifat fleksibel
+        $search = "%" . $keyword . "%";
+
+        // Prepared Statement agar aman dari SQL Injection
+        $stmt->bind_param("s", $search);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+    }
+
     public function getPelangganById($id_pelanggan) {
         $query = "SELECT * FROM $this->table WHERE id_pelanggan = ?";
         $stmt = $this->conn->prepare($query);

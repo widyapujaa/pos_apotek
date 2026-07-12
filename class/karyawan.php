@@ -15,6 +15,29 @@ class Karyawan {
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
+
+    // Mencari Data Karyawan
+    public function searchKaryawan($keyword)
+    {
+
+        // Sanitasi Input
+        $keyword = trim($keyword);
+
+        $query = "SELECT *
+              FROM $this->table
+              WHERE nama_karyawan LIKE ?";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Menggunakan wildcard agar pencarian bersifat fleksibel
+        $search = "%" . $keyword . "%";
+
+        // Prepared Statement agar aman dari SQL Injection
+        $stmt->bind_param("s", $search);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function createKaryawan($nama_karyawan, $email, $no_telepon, $alamat) {
         $id_karyawan = $this->db->generateId($this->table, 'id_karyawan', 'KR');
         $query = "INSERT INTO $this->table (id_karyawan, nama_karyawan, email, no_telepon, alamat) VALUES (?, ?, ?, ?, ?)";
