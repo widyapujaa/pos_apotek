@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin']);
 require_once '../class/user.php';
 require_once '../config/Mailer.php';
 require_once '../class/karyawan.php';
