@@ -75,7 +75,26 @@ class User {
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
+    public function cekUsername($username) {
+    $query = "SELECT username FROM $this->table WHERE username = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    return $stmt->get_result()->num_rows;
+    }
     public function addUser($username,$password,$role,$id_karyawan){
+        if ($username === '' || $password === '' || $role === '' || $id_karyawan === '') {
+        $this->error = "Semua field wajib diisi";
+        return false;
+        }
+        if (strlen($username) < 5) {
+        $this->error = "Username minimal 5 karakter";
+        return false;
+        }
+        if ($this->cekUsername($username) > 0) {
+        $this->error = "Username sudah digunakan, silakan pilih username lain";
+        return false;
+        }
         $query="INSERT INTO $this->table (username, password, role, id_karyawan) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("ssss", $username, $password, $role, $id_karyawan);
@@ -113,6 +132,14 @@ public function getError() {
 }
 
 public function updateProfil($id_karyawan, $email, $no_telepon, $alamat) {
+    if($id_karyawan === ''|| $email ===''|| $no_telp === ''|| $almat === ''){
+        $this->error = "Semua field wajib diisi";
+        return false;
+    }
+    if(!ctype_digit($no_telepon)) {
+        $this->error = "No telepon harus berupa angka";
+        return false;
+    }
     $query = "UPDATE karyawan SET email = ?, no_telepon = ?, alamat = ? WHERE id_karyawan = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bind_param("ssss", $email, $no_telepon, $alamat, $id_karyawan);

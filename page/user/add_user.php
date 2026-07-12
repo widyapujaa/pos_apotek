@@ -26,7 +26,8 @@ if (isset($_POST['add_user'])) {
         echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Menambahkan User', 'dashboard.php?page=user')};</script>";
     }
     else {
-        echo"<script>window.onload = function() {showAlert('error','Gagal', 'Gagal Menambahkan User', 'dashboard.php?page=user')};</script>";
+        $pesan = addslashes($user->getError());
+        echo"<script>window.onload = function() {showAlert('error','Gagal', '$pesan', 'dashboard.php?page=add_user')};</script>";
     }
     
 }
@@ -58,7 +59,8 @@ if (isset($_POST['add_user'])) {
 
                 <div class="mb-3">
                     <label class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Masukkan Username" required>
+                    <input type="text" name="username" class="form-control" placeholder="Masukkan Username"
+                        minlength="5" required>
                 </div>
 
                 <div class="mb-4">
