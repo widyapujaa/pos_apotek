@@ -97,5 +97,58 @@ class User {
         session_unset();
         session_destroy();
     }
+private $error = "";
+public function getError() {
+    return $this->error;
+}
+ public function getProfilById($id_karyawan) {
+    $query = "SELECT * FROM $this->table
+              INNER JOIN karyawan USING (id_karyawan)
+              WHERE id_karyawan = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $id_karyawan);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    return $result;
+}
+
+public function updateProfil($id_karyawan, $email, $no_telepon, $alamat) {
+    $query = "UPDATE karyawan SET email = ?, no_telepon = ?, alamat = ? WHERE id_karyawan = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ssss", $email, $no_telepon, $alamat, $id_karyawan);
+    return $stmt->execute();
+}
+
+public function updatePassword($id_karyawan, $password_lama, $password_baru) {
+
+    $query = "SELECT password FROM $this->table WHERE id_karyawan = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $id_karyawan);
+    $stmt->execute();
+    $data = $stmt->get_result()->fetch_assoc();
+
+    if (!$data) {
+        $this->error = "User tidak ditemukan";
+        return false;
+    }
+
+    if (!password_verify($password_lama, $data['password'])) {
+        $this->error = "Password lama tidak sesuai";
+        return false;
+    }
+
+    if (strlen($password_baru) < 8) {
+        $this->error = "Password baru minimal 8 karakter";
+        return false;
+    }
+
+    $password_hash = password_hash($password_baru, PASSWORD_DEFAULT);
+
+    $query = "UPDATE $this->table SET password = ? WHERE id_karyawan = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ss", $password_hash, $id_karyawan);
+    return $stmt->execute();
+}
+
 }
 ?>
