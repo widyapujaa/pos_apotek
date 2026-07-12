@@ -3,6 +3,8 @@ function showAlert(icon, title, message, redirectUrl) {
     icon: icon,
     title: title,
     text: message,
+    allowOutsideClick: false,
+    allowEscapeKey: false
   }).then((result) => {
     if (result.isConfirmed) {
       window.location.href = redirectUrl;
