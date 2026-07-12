@@ -96,6 +96,12 @@ $pageView = new Page();
                 </a>
             </li>
             <?php } ?>
+            <li class="nav-item">
+                <a href="?page=profil" class="nav-link <?= $pageView->activePage('profil')?>">
+                    <i class="bi bi-person"></i>
+                    Profil
+                </a>
+            </li>
 
         </ul>
 
