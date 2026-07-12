@@ -58,6 +58,14 @@ class Dashboard
         return $stmt->get_result()->fetch_assoc()['total'];
     }
 
+    public function totalTransaksi()
+    {
+        $query = "SELECT COUNT(*) AS total FROM transaksi";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc()['total'];
+    }
+
     // Menghitung Jumlah Obat dengan Stok Menipis
     // (stok kurang dari 5)
     public function totalStokMenipis()
@@ -122,5 +130,18 @@ class Dashboard
         $stmt->execute();
 
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function transaksiTerbaru()
+    {
+        $query = "SELECT * FROM transaksi
+              LEFT JOIN pelanggan USING (id_pelanggan)
+              LEFT JOIN karyawan USING (id_karyawan)
+              ORDER BY tgl_transaksi DESC
+              LIMIT 5";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $result;
     }
 }
