@@ -68,10 +68,10 @@ class Page{
                 break;
 
             case"profil":
-                include "../page/profil.php";
+                include "../page/profil/profil.php";
                 break;
             case"edit_profil":
-                include "../page/edit_profil.php";
+                include "../page/profil/edit_profil.php";
                 break;
             default:
                 include "../page/home.php";
