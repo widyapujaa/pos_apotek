@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+require_once '../class/control.php';
+$control = new Control();
+$control->cekLogin();
 require_once '../class/user.php';
 $userModel = new User();
 $username= $_SESSION['username'];
