@@ -1,16 +1,16 @@
 <?php
 
 require_once '../vendor/autoload.php';
-require_once '../class/obat.php';
+require_once '../class/karyawan.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-// Membuat object obat
-$obat = new Obat();
+// Membuat object karyawan
+$karyawan = new Karyawan();
 
-// Mengambil seluruh data obat
-$data = $obat->getAllObat();
+// Mengambil seluruh data karyawan
+$data = $karyawan->getAllKaryawan();
 
 // Konfigurasi Dompdf
 $options = new Options();
@@ -58,7 +58,7 @@ $html = '
 
     </style>
 
-        <h2>LAPORAN DATA OBAT</h2>
+        <h2>LAPORAN DATA KARYAWAN</h2>
 
         <p>
         POS APOTEK
@@ -71,12 +71,11 @@ $html = '
         <tr>
 
             <th>No</th>
-            <th>ID Obat</th>
-            <th>Nama Obat</th>
-            <th>Kategori</th>
-            <th>Stok</th>
-            <th>Harga</th>
-            <th>Supplier</th>
+            <th>ID Karyawan</th>
+            <th>Nama Karyawan</th>
+            <th>Email</th>
+            <th>Nomor Telepon</th>
+            <th>Alamat</th>
 
         </tr>
 
@@ -90,12 +89,11 @@ $html = '
 
         <tr>
             <td>' . $no++ . '</td>
-            <td>' . $row['id_obat'] . '</td>
-            <td>' . $row['nama_obat'] . '</td>
-            <td>' . $row['kategori_obat'] . '</td>
-            <td>' . $row['stok_obat'] . '</td>
-            <td>' . $row['harga_obat'] . '</td>
-            <td>' . $row['nama_perusahaan'] . '</td>
+            <td>' . $row['id_karyawan'] . '</td>
+            <td>' . $row['nama_karyawan'] . '</td>
+            <td>' . $row['email'] . '</td>
+            <td>' . $row['no_telepon'] . '</td>
+            <td>' . $row['alamat'] . '</td>
         </tr>
 
         ';
@@ -117,6 +115,6 @@ $html = '
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream(
-            "Laporan Obat.pdf",
+            "Laporan Karyawan.pdf",
             ["Attachment" => false]
         );

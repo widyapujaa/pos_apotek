@@ -2,6 +2,26 @@
 $user = new User();
 $data = $user->getAllUsers();
 $no = 1;
+
+// Keyword pencarian
+$keyword = "";
+
+// Proses Pencarian Pelanggan
+if (isset($_GET['keyword'])) {
+
+    $keyword = trim($_GET['keyword']);
+
+    // Jika textbox tidak kosong lakukan pencarian
+    if ($keyword != "") {
+
+        $data = $user->searchUsers($keyword);
+    } else {
+
+        // Jika textbox kosong tampilkan seluruh data
+        $data = $user->getAllUsers();
+    }
+}
+
 ?>
 
 <div class="container-fluid p-4">
@@ -12,9 +32,64 @@ $no = 1;
             <small class="text-muted">Kelola data akun pengguna</small>
         </div>
 
-        <a href="?page=add_user" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Tambah User
-        </a>
+        <div class="d-flex align-items-center">
+
+            <!-- Tombol Tambah User -->
+            <a href="?page=add_user"
+                class="btn btn-success me-3">
+
+                <i class="bi bi-plus-circle"></i>
+                Tambah User
+
+            </a>
+
+            <!-- Tombol Export PDF -->
+            <a href="../export/export_user.php"
+                target="_blank"
+                class="btn btn-danger me-3">
+
+                <i class="bi bi-file-earmark-pdf"></i>
+                Export PDF
+
+            </a>
+
+            <!-- Search User -->
+            <form method="GET" class="position-relative">
+
+                <input
+                    type="hidden"
+                    name="page"
+                    value="user">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    name="keyword"
+                    class="form-control ps-5 pe-5"
+                    placeholder="Cari user..."
+                    value="<?= htmlspecialchars($keyword); ?>"
+                    style="width:240px;border-radius:20px;">
+
+                <!-- Icon Search -->
+                <i class="bi bi-search position-absolute"
+                    style="left:18px; top:50%;transform:translateY(-50%);color:#6c757d;">
+                </i>
+
+                <?php if ($keyword != "") { ?>
+
+                    <!-- Tombol Reset -->
+                    <a href="?page=user"
+                        class="position-absolute text-decoration-none"
+                        style="right:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px;line-height:1;"
+                        title="Reset Pencarian">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </a>
+
+                <?php } ?>
+
+            </form>
+
+        </div>
     </div>
 
     <div class="card shadow-sm border-0 rounded-4">
@@ -56,8 +131,26 @@ $no = 1;
                 </tbody>
 
             </table>
-
         </div>
     </div>
-
 </div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+
+    // Auto search setelah user berhenti mengetik 500ms
+    searchInput.addEventListener("keyup", function() {
+
+        clearTimeout(this.delay);
+        this.delay = setTimeout(() => {
+
+            this.form.submit();
+
+        }, 500);
+    });
+
+    // Jika tombol X bawaan browser ditekan
+    searchInput.addEventListener("search", function() {
+        this.form.submit();
+    });
+</script>

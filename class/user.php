@@ -31,6 +31,35 @@ class User {
         $result = $stmt->get_result() ->fetch_all(MYSQLI_ASSOC);
         return $result;
     }
+
+    // Mencari Data User
+    public function searchUsers($keyword){
+
+    $query = "
+        SELECT
+            user.*,
+            karyawan.nama_karyawan
+        FROM user
+        INNER JOIN karyawan
+            ON user.id_karyawan = karyawan.id_karyawan
+        WHERE
+            karyawan.nama_karyawan LIKE ?
+            OR user.username LIKE ?
+            OR user.role LIKE ?
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $search = "%".$keyword."%";
+    $stmt->bind_param("sss",
+        $search,
+        $search,
+        $search
+    );
+
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
     public function getKaryawan(){
     $query = "SELECT *FROM $this->table RIGHT JOIN karyawan USING(id_karyawan) WHERE user.id_karyawan IS NULL ORDER BY nama_karyawan ASC";
         $stmt = $this->conn->prepare($query);
