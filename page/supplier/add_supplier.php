@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin','Stocker']);
 require_once '../class/supplier.php';
 
 // Membuat object Supplier
@@ -50,7 +56,8 @@ if (isset($_POST['add_supplier'])) {
                         Nama Perusahaan
                     </label>
 
-                    <input type="text" name="nama_perusahaan" class="form-control" placeholder="Masukkan Nama Perusahaan" required>
+                    <input type="text" name="nama_perusahaan" class="form-control"
+                        placeholder="Masukkan Nama Perusahaan" required>
                 </div>
 
                 <!-- Input Nomor Telepon -->
@@ -59,7 +66,8 @@ if (isset($_POST['add_supplier'])) {
                         No Telepon
                     </label>
 
-                    <input type="text" name="no_telepon" class="form-control" placeholder="Masukkan No Telepon" required>
+                    <input type="text" name="no_telepon" class="form-control" placeholder="Masukkan No Telepon"
+                        required>
                 </div>
 
                 <!-- Input Alamat -->
@@ -80,10 +88,7 @@ if (isset($_POST['add_supplier'])) {
                     </a>
 
                     <!-- Menyimpan data supplier -->
-                    <button
-                        type="submit"
-                        name="add_supplier"
-                        class="btn btn-success">
+                    <button type="submit" name="add_supplier" class="btn btn-success">
 
                         <i class="bi bi-check-circle"></i>
                         Simpan

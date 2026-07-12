@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin', 'Kasir']);
 require_once '../class/pelanggan.php';
 $pelanggan = new Pelanggan();
 if (isset($_POST['add_pelanggan'])) {

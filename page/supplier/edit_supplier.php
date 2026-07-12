@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin','Stocker']);
 require_once '../class/supplier.php';
 
 // Membuat object Supplier
@@ -55,7 +61,8 @@ if (isset($_POST['edit_supplier'])) {
                     </label>
 
                     <input type="text" name="nama_perusahaan" class="form-control"
-                    placeholder="Masukkan Nama Perusahaan" required value="<?= $data_supplier['nama_perusahaan'] ?>">
+                        placeholder="Masukkan Nama Perusahaan" required
+                        value="<?= $data_supplier['nama_perusahaan'] ?>">
 
                 </div>
 
@@ -64,9 +71,10 @@ if (isset($_POST['edit_supplier'])) {
 
                     <label class="form-label">
                         No Telepon
-                    </label> 
+                    </label>
 
-                    <input type="text" name="no_telepon" class="form-control" placeholder="Masukkan No Telepon" required value="<?= $data_supplier['no_telepon'] ?>">
+                    <input type="text" name="no_telepon" class="form-control" placeholder="Masukkan No Telepon" required
+                        value="<?= $data_supplier['no_telepon'] ?>">
 
                 </div>
 
@@ -77,10 +85,7 @@ if (isset($_POST['edit_supplier'])) {
                         Alamat
                     </label>
 
-                    <textarea
-                        name="alamat"
-                        class="form-control"
-                        placeholder="Masukkan Alamat"
+                    <textarea name="alamat" class="form-control" placeholder="Masukkan Alamat"
                         required><?= $data_supplier['alamat'] ?></textarea>
 
                 </div>

@@ -1,4 +1,7 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
 require_once '../class/Dashboard.php';
 
 // Membuat object Dashboard
@@ -236,33 +239,33 @@ $aktivitas = $dashboard->aktivitasTerbaru();
                         <tbody>
 
                             <?php if(count($dataStok)>0){ ?>
-                                <?php foreach($dataStok as $row){ ?>
+                            <?php foreach($dataStok as $row){ ?>
 
-                                <tr>
-                                    <!-- Menggunakan htmlspecialchars() untuk mencegah XSS -->
-                                    <td><?= htmlspecialchars($row['nama_obat']) ?></td>
-                                    <td><?= htmlspecialchars($row['kategori_obat']) ?></td>
-                                    <td><?= htmlspecialchars($row['nama_perusahaan']) ?></td>
-                                    <td>
-                                        <span class="badge bg-danger badge-stok">
+                            <tr>
+                                <!-- Menggunakan htmlspecialchars() untuk mencegah XSS -->
+                                <td><?= htmlspecialchars($row['nama_obat']) ?></td>
+                                <td><?= htmlspecialchars($row['kategori_obat']) ?></td>
+                                <td><?= htmlspecialchars($row['nama_perusahaan']) ?></td>
+                                <td>
+                                    <span class="badge bg-danger badge-stok">
 
-                                            <?= $row['stok_obat'] ?>
-                                        </span>
-                                    </td>
-                                </tr>
+                                        <?= $row['stok_obat'] ?>
+                                    </span>
+                                </td>
+                            </tr>
 
-                                <?php } ?>
+                            <?php } ?>
 
                             <?php }else{ ?>
 
-                                <tr>
-                                    <td colspan="4" class="text-center text-success">
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        Semua stok masih aman
+                            <tr>
+                                <td colspan="4" class="text-center text-success">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Semua stok masih aman
 
-                                    </td>
+                                </td>
 
-                                </tr>
+                            </tr>
 
                             <?php } ?>
                         </tbody>
@@ -287,59 +290,59 @@ $aktivitas = $dashboard->aktivitasTerbaru();
                         <tbody>
 
                             <?php if(count($aktivitas)>0){ ?>
-                                <?php foreach($aktivitas as $row){ ?>
+                            <?php foreach($aktivitas as $row){ ?>
 
-                                <tr>
-                                    <td>
-                                        <strong>
+                            <tr>
+                                <td>
+                                    <strong>
 
-                                            <?= htmlspecialchars($row['nama_pelanggan']) ?>
+                                        <?= htmlspecialchars($row['nama_pelanggan']) ?>
 
-                                        </strong>
+                                    </strong>
 
-                                        <br>
+                                    <br>
 
-                                        <small class="text-muted">
-                                            Membeli
-                                            <span class="text-primary">
+                                    <small class="text-muted">
+                                        Membeli
+                                        <span class="text-primary">
 
-                                                <?= htmlspecialchars($row['nama_obat']) ?>
+                                            <?= htmlspecialchars($row['nama_obat']) ?>
 
-                                            </span>
+                                        </span>
 
-                                            sebanyak
+                                        sebanyak
 
-                                            <b><?= $row['jumlah'] ?></b>
+                                        <b><?= $row['jumlah'] ?></b>
 
-                                        </small>
+                                    </small>
 
-                                    </td>
+                                </td>
 
-                                    <td class="text-end">
+                                <td class="text-end">
 
-                                        <small class="text-muted">
+                                    <small class="text-muted">
 
-                                            <?= date("d/m/Y", strtotime($row['tgl_transaksi'])) ?>
+                                        <?= date("d/m/Y", strtotime($row['tgl_transaksi'])) ?>
 
-                                        </small>
+                                    </small>
 
-                                    </td>
+                                </td>
 
-                                </tr>
+                            </tr>
 
-                                <?php } ?>
+                            <?php } ?>
 
                             <?php }else{ ?>
 
-                                <tr>
+                            <tr>
 
-                                    <td class="text-center text-muted p-4">
+                                <td class="text-center text-muted p-4">
 
-                                        Belum ada transaksi.
+                                    Belum ada transaksi.
 
-                                    </td>
+                                </td>
 
-                                </tr>
+                            </tr>
 
                             <?php } ?>
 

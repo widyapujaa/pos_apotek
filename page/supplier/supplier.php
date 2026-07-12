@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin','Stocker']);
 require_once '../class/supplier.php';
 
 // Membuat object Supplier
@@ -59,8 +65,7 @@ if (isset($_GET['delete_supplier'])) {
         <div class="d-flex align-items-center">
 
             <!-- Tombol Tambah Supplier -->
-            <a href="?page=add_supplier"
-                class="btn btn-success me-3">
+            <a href="?page=add_supplier" class="btn btn-success me-3">
 
                 <i class="bi bi-plus-circle"></i>
                 Tambah Supplier
@@ -68,9 +73,7 @@ if (isset($_GET['delete_supplier'])) {
             </a>
 
             <!-- Tombol Export PDF -->
-            <a href="../export/export_supplier.php"
-                target="_blank"
-                class="btn btn-danger me-3">
+            <a href="../export/export_supplier.php" target="_blank" class="btn btn-danger me-3">
 
                 <i class="bi bi-file-earmark-pdf"></i>
                 Export PDF
@@ -80,18 +83,10 @@ if (isset($_GET['delete_supplier'])) {
             <!-- Search Supplier -->
             <form method="GET" class="position-relative">
 
-                <input
-                    type="hidden"
-                    name="page"
-                    value="supplier">
+                <input type="hidden" name="page" value="supplier">
 
-                <input
-                    type="text"
-                    id="searchInput"
-                    name="keyword"
-                    class="form-control ps-5 pe-5"
-                    placeholder="Cari supplier..."
-                    value="<?= htmlspecialchars($keyword); ?>"
+                <input type="text" id="searchInput" name="keyword" class="form-control ps-5 pe-5"
+                    placeholder="Cari supplier..." value="<?= htmlspecialchars($keyword); ?>"
                     style="width:240px;border-radius:20px;">
 
                 <!-- Icon Search -->
@@ -101,13 +96,12 @@ if (isset($_GET['delete_supplier'])) {
 
                 <?php if ($keyword != "") { ?>
 
-                    <!-- Tombol Reset -->
-                    <a href="?page=supplier"
-                        class="position-absolute text-decoration-none"
-                        style="right:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px;line-height:1;"
-                        title="Reset Pencarian">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </a>
+                <!-- Tombol Reset -->
+                <a href="?page=supplier" class="position-absolute text-decoration-none"
+                    style="right:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px;line-height:1;"
+                    title="Reset Pencarian">
+                    <i class="bi bi-x-circle-fill"></i>
+                </a>
 
                 <?php } ?>
 
@@ -139,68 +133,67 @@ if (isset($_GET['delete_supplier'])) {
                     <!-- Menampilkan seluruh data supplier -->
                     <?php if (count($data) > 0) { ?>
 
-                        <?php foreach ($data as $row) { ?>
+                    <?php foreach ($data as $row) { ?>
 
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <!-- Menggunakan htmlspecialchars() untuk mencegah XSS -->
-                                <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
-                                <td><?= htmlspecialchars($row['no_telepon']); ?></td>
-                                <td><?= htmlspecialchars($row['alamat']); ?></td>
+                    <tr>
+                        <td><?= $no++; ?></td>
+                        <!-- Menggunakan htmlspecialchars() untuk mencegah XSS -->
+                        <td><?= htmlspecialchars($row['nama_perusahaan']); ?></td>
+                        <td><?= htmlspecialchars($row['no_telepon']); ?></td>
+                        <td><?= htmlspecialchars($row['alamat']); ?></td>
 
-                                <td class="text-center">
+                        <td class="text-center">
 
-                                    <!-- Tombol Edit -->
-                                    <a href="?page=edit_supplier&id_supplier=<?= $row['id_supplier']; ?>"
-                                        class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                            <!-- Tombol Edit -->
+                            <a href="?page=edit_supplier&id_supplier=<?= $row['id_supplier']; ?>"
+                                class="btn btn-warning btn-sm">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
 
-                                    <?php
+                            <?php
                                     // Mengecek apakah supplier masih digunakan oleh data obat
                                     // Jika masih digunakan maka tombol hapus dinonaktifkan
                                     if ($supplier->cekRelasiObat($row['id_supplier']) > 0) {
                                     ?>
 
-                                        <a class="btn btn-danger btn-sm disabled" href="#">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                            <a class="btn btn-danger btn-sm disabled" href="#">
+                                <i class="bi bi-trash"></i>
+                            </a>
 
-                                    <?php
+                            <?php
 
                                     } else {
 
                                     ?>
 
-                                        <!-- Konfirmasi sebelum menghapus supplier -->
-                                        <a onclick="showConfirm(
+                            <!-- Konfirmasi sebelum menghapus supplier -->
+                            <a onclick="showConfirm(
                                 'warning',
                                 'Peringatan!',
                                 'Apakah kamu yakin ingin menghapus supplier ini?',
                                 '?page=supplier&delete_supplier&id_supplier=<?= $row['id_supplier']; ?>'
-                            )"
-                                            class="btn btn-danger btn-sm">
+                            )" class="btn btn-danger btn-sm">
 
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                <i class="bi bi-trash"></i>
+                            </a>
 
-                                    <?php } ?>
+                            <?php } ?>
 
-                                </td>
+                        </td>
 
-                            </tr>
+                    </tr>
 
-                        <?php } ?>
+                    <?php } ?>
 
                     <?php } else { ?>
 
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
 
-                                Data supplier tidak ditemukan.
+                            Data supplier tidak ditemukan.
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
                     <?php } ?>
 
@@ -211,21 +204,21 @@ if (isset($_GET['delete_supplier'])) {
 </div>
 
 <script>
-    const searchInput = document.getElementById("searchInput");
+const searchInput = document.getElementById("searchInput");
 
-    // Auto search setelah user berhenti mengetik 500ms
-    searchInput.addEventListener("keyup", function() {
+// Auto search setelah user berhenti mengetik 500ms
+searchInput.addEventListener("keyup", function() {
 
-        clearTimeout(this.delay);
-        this.delay = setTimeout(() => {
+    clearTimeout(this.delay);
+    this.delay = setTimeout(() => {
 
-            this.form.submit();
-
-        }, 500);
-    });
-
-    // Jika tombol X bawaan browser ditekan
-    searchInput.addEventListener("search", function() {
         this.form.submit();
-    });
+
+    }, 500);
+});
+
+// Jika tombol X bawaan browser ditekan
+searchInput.addEventListener("search", function() {
+    this.form.submit();
+});
 </script>

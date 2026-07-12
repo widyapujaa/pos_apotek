@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin','Stocker']);
 require_once '../class/obat.php';
 require_once '../class/supplier.php';
 
@@ -122,11 +128,7 @@ if (isset($_POST['add_obat'])) {
                         Stok Obat
                     </label>
 
-                    <input
-                        type="number"
-                        name="stok_obat"
-                        class="form-control"
-                        placeholder="Masukkan Stok Obat"
+                    <input type="number" name="stok_obat" class="form-control" placeholder="Masukkan Stok Obat"
                         required>
                 </div>
 
@@ -136,11 +138,7 @@ if (isset($_POST['add_obat'])) {
                         Harga Obat
                     </label>
 
-                    <input
-                        type="number"
-                        name="harga_obat"
-                        class="form-control"
-                        placeholder="Masukkan Harga Obat"
+                    <input type="number" name="harga_obat" class="form-control" placeholder="Masukkan Harga Obat"
                         required>
                 </div>
 

@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin', 'Kasir']);
 require_once '../class/transaksi.php';
 $transaksi = new Transaksi();
 $id_transaksi = $_GET['id_transaksi'];

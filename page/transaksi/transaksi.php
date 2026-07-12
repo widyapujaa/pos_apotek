@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin', 'Kasir']);
 require_once '../class/transaksi.php';
 $transaksi = new Transaksi();
 $data = $transaksi->getAllTransaksi();
@@ -35,8 +41,7 @@ if (isset($_GET['keyword'])) {
         <div class="d-flex align-items-center">
 
             <!-- Tombol Tambah Transaksi -->
-            <a href="?page=add_transaksi"
-                class="btn btn-success me-3">
+            <a href="?page=add_transaksi" class="btn btn-success me-3">
 
                 <i class="bi bi-plus-circle"></i>
                 Tambah Transaksi
@@ -44,9 +49,7 @@ if (isset($_GET['keyword'])) {
             </a>
 
             <!-- Tombol Export PDF -->
-            <a href="../export/export_transaksi.php"
-                target="_blank"
-                class="btn btn-danger me-3">
+            <a href="../export/export_transaksi.php" target="_blank" class="btn btn-danger me-3">
 
                 <i class="bi bi-file-earmark-pdf"></i>
                 Export PDF
@@ -56,18 +59,10 @@ if (isset($_GET['keyword'])) {
             <!-- Search Transaksi -->
             <form method="GET" class="position-relative">
 
-                <input
-                    type="hidden"
-                    name="page"
-                    value="transaksi">
+                <input type="hidden" name="page" value="transaksi">
 
-                <input
-                    type="text"
-                    id="searchInput"
-                    name="keyword"
-                    class="form-control ps-5 pe-5"
-                    placeholder="Cari transaksi..."
-                    value="<?= htmlspecialchars($keyword); ?>"
+                <input type="text" id="searchInput" name="keyword" class="form-control ps-5 pe-5"
+                    placeholder="Cari transaksi..." value="<?= htmlspecialchars($keyword); ?>"
                     style="width:240px;border-radius:20px;">
 
                 <!-- Icon Search -->
@@ -77,13 +72,12 @@ if (isset($_GET['keyword'])) {
 
                 <?php if ($keyword != "") { ?>
 
-                    <!-- Tombol Reset -->
-                    <a href="?page=transaksi"
-                        class="position-absolute text-decoration-none"
-                        style="right:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px;line-height:1;"
-                        title="Reset Pencarian">
-                        <i class="bi bi-x-circle-fill"></i>
-                    </a>
+                <!-- Tombol Reset -->
+                <a href="?page=transaksi" class="position-absolute text-decoration-none"
+                    style="right:16px;top:50%;transform:translateY(-50%);color:#999;font-size:18px;line-height:1;"
+                    title="Reset Pencarian">
+                    <i class="bi bi-x-circle-fill"></i>
+                </a>
 
                 <?php } ?>
 
@@ -137,21 +131,21 @@ if (isset($_GET['keyword'])) {
 </div>
 
 <script>
-    const searchInput = document.getElementById("searchInput");
+const searchInput = document.getElementById("searchInput");
 
-    // Auto search setelah user berhenti mengetik 500ms
-    searchInput.addEventListener("keyup", function() {
+// Auto search setelah user berhenti mengetik 500ms
+searchInput.addEventListener("keyup", function() {
 
-        clearTimeout(this.delay);
-        this.delay = setTimeout(() => {
+    clearTimeout(this.delay);
+    this.delay = setTimeout(() => {
 
-            this.form.submit();
-
-        }, 500);
-    });
-
-    // Jika tombol X bawaan browser ditekan
-    searchInput.addEventListener("search", function() {
         this.form.submit();
-    });
+
+    }, 500);
+});
+
+// Jika tombol X bawaan browser ditekan
+searchInput.addEventListener("search", function() {
+    this.form.submit();
+});
 </script>

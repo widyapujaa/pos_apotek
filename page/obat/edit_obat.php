@@ -1,4 +1,10 @@
 <?php
+if (!defined('AKSES_DASHBOARD')) {
+    header("Location: /pos_apotek/page/login.php");
+}
+include_once '../class/control.php';
+$control = new Control();
+$control->aksesHalaman(['Admin','Stocker']);
 require_once '../class/obat.php';
 require_once '../class/supplier.php';
 
@@ -77,8 +83,7 @@ if (isset($_POST['edit_obat'])) {
                         <?php foreach($dataSupplier as $row){ ?>
 
                         <!-- Menampilkan seluruh supplier -->
-                        <option
-                            value="<?= $row['id_supplier']; ?>"
+                        <option value="<?= $row['id_supplier']; ?>"
                             <?php if($row['id_supplier'] == $data_obat['id_supplier']) { echo 'selected'; } ?>>
 
                             <?= htmlspecialchars($row['nama_perusahaan']); ?>
@@ -96,8 +101,8 @@ if (isset($_POST['edit_obat'])) {
                         Nama Obat
                     </label>
 
-                    <input type="text" name="nama_obat" class="form-control" placeholder="Masukkan Nama Obat" 
-                    required value="<?= htmlspecialchars($data_obat['nama_obat']) ?>">
+                    <input type="text" name="nama_obat" class="form-control" placeholder="Masukkan Nama Obat" required
+                        value="<?= htmlspecialchars($data_obat['nama_obat']) ?>">
                 </div>
 
                 <!-- Pilih Kategori Obat -->
@@ -113,20 +118,17 @@ if (isset($_POST['edit_obat'])) {
                             -- Pilih Kategori --
                         </option>
 
-                        <option
-                            value="Obat Bebas"
+                        <option value="Obat Bebas"
                             <?php if($data_obat['kategori_obat'] == 'Obat Bebas') echo 'selected'; ?>>
                             Obat Bebas
                         </option>
 
-                        <option
-                            value="Obat Keras"
+                        <option value="Obat Keras"
                             <?php if($data_obat['kategori_obat'] == 'Obat Keras') echo 'selected'; ?>>
                             Obat Keras
                         </option>
 
-                        <option
-                            value="Obat Bebas Terbatas"
+                        <option value="Obat Bebas Terbatas"
                             <?php if($data_obat['kategori_obat'] == 'Obat Bebas Terbatas') echo 'selected'; ?>>
                             Obat Bebas Terbatas
                         </option>
@@ -141,12 +143,7 @@ if (isset($_POST['edit_obat'])) {
                         Stok Obat
                     </label>
 
-                    <input
-                        type="number"
-                        name="stok_obat"
-                        class="form-control"
-                        placeholder="Masukkan Stok Obat"
-                        required
+                    <input type="number" name="stok_obat" class="form-control" placeholder="Masukkan Stok Obat" required
                         value="<?= $data_obat['stok_obat'] ?>">
                 </div>
 
@@ -156,13 +153,8 @@ if (isset($_POST['edit_obat'])) {
                         Harga Obat
                     </label>
 
-                    <input
-                        type="number"
-                        name="harga_obat"
-                        class="form-control"
-                        placeholder="Masukkan Harga Obat"
-                        required
-                        value="<?= $data_obat['harga_obat'] ?>">
+                    <input type="number" name="harga_obat" class="form-control" placeholder="Masukkan Harga Obat"
+                        required value="<?= $data_obat['harga_obat'] ?>">
                 </div>
 
                 <!-- Tombol Aksi -->
