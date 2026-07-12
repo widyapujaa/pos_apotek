@@ -132,6 +132,15 @@ class Dashboard
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function daftarSupplierTerbaru()
+    {
+        $query = "SELECT * FROM supplier ORDER BY id_supplier DESC LIMIT 5";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $result;
+    }
+
     public function transaksiTerbaru()
     {
         $query = "SELECT * FROM transaksi

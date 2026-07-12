@@ -28,6 +28,7 @@ $aktivitas = $dashboard->aktivitasTerbaru();
 
 // Mengambil transaksi terbaru (khusus Kasir)
 $transaksiTerbaru = $dashboard->transaksiTerbaru();
+$daftarSupplier = $dashboard->daftarSupplierTerbaru();
 ?>
 
 <div class="container-fluid p-4">
@@ -304,7 +305,6 @@ $transaksiTerbaru = $dashboard->transaksiTerbaru();
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
-
                                     <th>Nama Obat</th>
                                     <th>Kategori</th>
                                     <th>Supplier</th>
@@ -324,7 +324,6 @@ $transaksiTerbaru = $dashboard->transaksiTerbaru();
                                             <td><?= htmlspecialchars($row['nama_perusahaan']) ?></td>
                                             <td>
                                                 <span class="badge bg-danger badge-stok">
-
                                                     <?= $row['stok_obat'] ?>
                                                 </span>
                                             </td>
@@ -350,77 +349,135 @@ $transaksiTerbaru = $dashboard->transaksiTerbaru();
             </div>
 
             <!-- Aktivitas Terbaru -->
-            <div class="col-lg-4 mb-4">
-                <div class="card dashboard-card h-100">
-                    <div class="card-header bg-white">
-                        <i class="bi bi-clock-history text-primary"></i>
-                        Transaksi Terbaru
+            <?php if ($control->isAllowed(['Admin'])) { ?>
+                <div class="col-lg-4 mb-4">
+                    <div class="card dashboard-card h-100">
 
-                    </div>
+                        <div class="card-header bg-white">
+                            <i class="bi bi-clock-history text-primary"></i>
+                            Transaksi Terbaru
+                        </div>
 
-                    <div class="card-body p-0">
+                        <div class="card-body p-0">
 
-                        <table class="table table-hover mb-0">
+                            <table class="table table-hover mb-0">
+                                <tbody>
 
-                            <tbody>
+                                    <?php if (count($aktivitas) > 0) { ?>
+                                        <?php foreach ($aktivitas as $row) { ?>
 
-                                <?php if (count($aktivitas) > 0) { ?>
-                                    <?php foreach ($aktivitas as $row) { ?>
+                                            <tr>
+                                                <td>
+                                                    <strong>
+                                                        <?= htmlspecialchars($row['nama_pelanggan']) ?>
+                                                    </strong>
+
+                                                    <br>
+
+                                                    <small class="text-muted">
+                                                        Membeli
+                                                        <span class="text-primary">
+                                                            <?= htmlspecialchars($row['nama_obat']) ?>
+                                                        </span>
+
+                                                        sebanyak
+
+                                                        <b><?= $row['jumlah'] ?></b>
+
+                                                    </small>
+
+                                                </td>
+
+                                                <td class="text-end">
+                                                    <small class="text-muted">
+                                                        <?= date("d/m/Y", strtotime($row['tgl_transaksi'])) ?>
+                                                    </small>
+                                                </td>
+
+                                            </tr>
+
+                                        <?php } ?>
+
+                                    <?php } else { ?>
 
                                         <tr>
-                                            <td>
-                                                <strong>
-
-                                                    <?= htmlspecialchars($row['nama_pelanggan']) ?>
-
-                                                </strong>
-
-                                                <br>
-
-                                                <small class="text-muted">
-                                                    Membeli
-                                                    <span class="text-primary">
-                                                        <?= htmlspecialchars($row['nama_obat']) ?>
-                                                    </span>
-
-                                                    sebanyak
-
-                                                    <b><?= $row['jumlah'] ?></b>
-
-                                                </small>
-
+                                            <td class="text-center text-muted p-4">
+                                                Belum ada transaksi.
                                             </td>
-
-                                            <td class="text-end">
-
-                                                <small class="text-muted">
-                                                    <?= date("d/m/Y", strtotime($row['tgl_transaksi'])) ?>
-                                                </small>
-
-                                            </td>
-
                                         </tr>
 
                                     <?php } ?>
 
-                                <?php } else { ?>
+                                </tbody>
 
-                                    <tr>
-
-                                        <td class="text-center text-muted p-4">
-                                            Belum ada transaksi.
-                                        </td>
-
-                                    </tr>
-
-                                <?php } ?>
-
-                            </tbody>
-
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php } ?>
+
+            <?php if ($control->isAllowed(['Stocker'])) { ?>
+                <div class="col-lg-4 mb-4">
+                    <div class="card dashboard-card h-100">
+
+                        <div class="card-header card-header d-flex justify-content-between align-items-center bg-white">
+                            <span>
+                                <i class="bi bi-truck text-primary"></i>
+                                Daftar Supplier Terbaru
+                            </span>
+
+                            <a href="?page=add_supplier" class="btn btn-success btn-sm">
+                                <i class="bi bi-plus-circle"></i> Tambah Supplier
+                            </a>
+                        </div>
+
+                        <div class="card-body p-0">
+
+                            <table class="table table-hover mb-0">
+                                <tbody>
+
+                                    <?php if (count($daftarSupplier) > 0) { ?>
+                                        <?php foreach ($daftarSupplier as $row) { ?>
+
+                                            <tr>
+                                                <td>
+                                                    <strong>
+                                                        <?= htmlspecialchars($row['nama_perusahaan']) ?>
+                                                    </strong>
+
+                                                    <br>
+
+                                                    <small class="text-muted">
+                                                        <?= htmlspecialchars($row['alamat']) ?>
+                                                    </small>
+
+                                                </td>
+
+                                                <td class="text-end">
+                                                    <small class="text-muted">
+                                                        <?= htmlspecialchars($row['no_telepon']) ?>
+                                                    </small>
+                                                </td>
+
+                                            </tr>
+
+                                        <?php } ?>
+
+                                    <?php } else { ?>
+
+                                        <tr>
+                                            <td class="text-center text-muted p-4">
+                                                Belum ada supplier.
+                                            </td>
+                                        </tr>
+
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     <?php } ?>
 
@@ -518,7 +575,6 @@ $transaksiTerbaru = $dashboard->transaksiTerbaru();
                                             <td><?= htmlspecialchars($row['nama_perusahaan']) ?></td>
                                             <td>
                                                 <span class="badge bg-danger badge-stok">
-
                                                     <?= $row['stok_obat'] ?>
                                                 </span>
                                             </td>
@@ -533,7 +589,6 @@ $transaksiTerbaru = $dashboard->transaksiTerbaru();
                                             <i class="bi bi-check-circle-fill"></i>
                                             Semua stok masih aman
                                         </td>
-
                                     </tr>
 
                                 <?php } ?>
