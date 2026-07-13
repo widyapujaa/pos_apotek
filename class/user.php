@@ -100,6 +100,19 @@ class User {
         $stmt->bind_param("ssss", $username, $password, $role, $id_karyawan);
         return $stmt->execute();
     }
+    public function deleteUser($id_karyawan) {
+        $query = "DELETE FROM $this->table WHERE id_karyawan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_karyawan);
+        return $stmt->execute();
+    }
+    public function cekRelasiTransaksi($id_karyawan) {
+        $query = "SELECT id_karyawan FROM transaksi WHERE id_karyawan = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $id_karyawan);
+        $stmt->execute();
+        return $stmt->get_result()->num_rows;
+}
     public function updateUser($username,$role) {
         $query = "UPDATE $this->table SET role = ? WHERE username = ?";
         $stmt = $this->conn->prepare($query);

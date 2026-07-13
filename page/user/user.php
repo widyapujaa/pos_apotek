@@ -9,6 +9,16 @@ $user = new User();
 $data = $user->getAllUsers();
 $no = 1;
 
+if (isset($_GET['delete_user'])) {
+    $id_karyawan = $_GET['id_karyawan'];
+    $eksekusi = $user->deleteUser($id_karyawan);
+    if ($eksekusi) {
+        echo "<script>window.onload = function() {showAlert('success','Berhasil', 'Berhasil Menghapus User', 'dashboard.php?page=user')};</script>";
+    } else {
+        echo "<script>window.onload = function() {showAlert('error','Gagal', 'Gagal Menghapus User', 'dashboard.php?page=user')};</script>";
+    }
+}
+
 // Keyword pencarian
 $keyword = "";
 
@@ -113,10 +123,20 @@ if (isset($_GET['keyword'])) {
                             <a href="?page=edit_user&username=<?= $row['username'] ?>" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-
-                            <a href="" class="btn btn-danger btn-sm">
+                            <?php
+                                if ($user->cekRelasiTransaksi($row['id_karyawan']) > 0 || $row['id_karyawan'] == $_SESSION['id_karyawan']) {
+                                ?>
+                            <a class="btn btn-danger btn-sm disabled" href="#"><i class="bi bi-trash"></i></a>
+                            <?php
+                                } else {
+                                ?>
+                            <a onclick="showConfirm('warning','Peringatan!','Apakah kamu yakin ingin menghapus user ini?','?page=user&delete_user&id_karyawan=<?= $row['id_karyawan']; ?>')"
+                                class="btn btn-danger btn-sm">
                                 <i class="bi bi-trash"></i>
                             </a>
+                            <?php } ?>
+
+
                         </td>
                     </tr>
 
