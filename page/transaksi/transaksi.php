@@ -94,7 +94,7 @@ if (isset($_GET['keyword'])) {
                     <tr>
                         <th width="60">No</th>
                         <th>Nama Pelanggan</th>
-                        <th>Nama Karyawan</th>
+                        <th>Nama Kasir</th>
                         <th>Tgl Transaksi</th>
                         <th>Kategori Pelanggan</th>
                         <th width="150" class="text-center">Aksi</th>
